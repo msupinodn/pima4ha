@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PIMA Alarm Setup",
+        "description": "Configure your PIMA alarm system with Net4Pro network card.",
+        "data": {
+          "host": "IP Address",
+          "port": "Port",
+          "alarm_code": "Alarm Code",
+          "scan_interval": "Status Poll Interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to PIMA alarm system. Please check IP address, port, and alarm code.",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "domain": "pima",
+  "name": "PIMA Alarm",
+  "codeowners": ["@yourhandle"],
+  "config_flow": true,
+  "documentation": "https://github.com/yourusername/pima4ha",
+  "issue_tracker": "https://github.com/yourusername/pima4ha/issues",
+  "iot_class": "local_polling",
+  "requirements": ["crcmod==1.7"],
+  "version": "1.0.0"
+}

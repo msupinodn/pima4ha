@@ -1,0 +1,7 @@
+{
+  "name": "PIMA Alarm",
+  "render_readme": true,
+  "domains": ["alarm_control_panel"],
+  "iot_class": "Local Polling",
+  "homeassistant": "2023.1.0"
+}
