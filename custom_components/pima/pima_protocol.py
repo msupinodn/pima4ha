@@ -201,7 +201,13 @@ class PimaProtocol:
         # Parse status from response
         if "S=" in response:
             status_code = response.split("S=")[1][0]
-            return PIMA_STATE_MAP.get(status_code, "unknown")
+            mapped_state = PIMA_STATE_MAP.get(status_code, "unknown")
+            _LOGGER.debug(
+                "PIMA status mapping: code '%s' -> '%s' via PIMA_STATE_MAP",
+                status_code,
+                mapped_state,
+            )
+            return mapped_state
 
         return "unknown"
 
