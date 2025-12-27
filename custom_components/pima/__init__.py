@@ -10,12 +10,14 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import CONF_ALARM_CODE, DEFAULT_SCAN_INTERVAL, DOMAIN
 from .pima_protocol import PimaProtocol
+from .logging_utils import log_calls
 
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = [Platform.ALARM_CONTROL_PANEL]
 
 
+@log_calls()
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up PIMA Alarm from a config entry."""
     host = entry.data[CONF_HOST]
@@ -46,6 +48,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
 
 
+@log_calls()
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
@@ -75,6 +78,7 @@ class PimaDataUpdateCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=scan_interval),
         )
 
+    @log_calls()
     async def _async_update_data(self):
         """Fetch data from PIMA alarm system."""
         try:

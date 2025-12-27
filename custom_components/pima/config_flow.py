@@ -19,6 +19,7 @@ from .const import (
     MIN_SCAN_INTERVAL,
 )
 from .pima_protocol import PimaProtocol
+from .logging_utils import log_calls
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -37,6 +38,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 )
 
 
+@log_calls()
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     protocol = PimaProtocol(
@@ -60,6 +62,7 @@ class PimaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
+    @log_calls()
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:

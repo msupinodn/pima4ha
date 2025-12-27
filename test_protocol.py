@@ -12,6 +12,7 @@ sys.path.insert(0, pima_path)
 
 # Now import directly - this avoids __init__.py but allows relative imports within pima_protocol.py to work
 from pima_protocol import PimaProtocol
+from logging_utils import log_calls
 
 # Configure logging
 logging.basicConfig(
@@ -20,6 +21,7 @@ logging.basicConfig(
 )
 
 
+@log_calls()
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
@@ -42,6 +44,7 @@ Examples:
     return parser.parse_args()
 
 
+@log_calls()
 async def test_status(pima_ip, pima_port, alarm_code):
     """Test getting alarm status."""
     print("\n=== Testing Status Query ===")
@@ -53,6 +56,7 @@ async def test_status(pima_ip, pima_port, alarm_code):
     return status
 
 
+@log_calls()
 async def test_arm_disarm(pima_ip, pima_port, alarm_code):
     """Test arm and disarm commands."""
     protocol = PimaProtocol(pima_ip, pima_port, alarm_code)
@@ -82,6 +86,7 @@ async def test_arm_disarm(pima_ip, pima_port, alarm_code):
     print(f"Disarm: {'✓ Success' if success else '✗ Failed'}")
 
 
+@log_calls()
 async def main():
     """Main test function."""
     args = parse_args()

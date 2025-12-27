@@ -18,6 +18,7 @@ try:
         RETRY_ATTEMPTS,
         UDP_KNOCKS,
     )
+    from .logging_utils import log_calls
 except ImportError:
     from const import (
         COMMAND_FLAG,
@@ -28,6 +29,7 @@ except ImportError:
         RETRY_ATTEMPTS,
         UDP_KNOCKS,
     )
+    from logging_utils import log_calls
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,6 +37,7 @@ _LOGGER = logging.getLogger(__name__)
 class PimaProtocol:
     """Handle PIMA alarm system communication."""
 
+    @log_calls()
     def __init__(self, host: str, port: int, alarm_code: str):
         """Initialize the PIMA protocol handler."""
         self.host = host
@@ -45,11 +48,13 @@ class PimaProtocol:
         # Initialize CRC function for XMODEM
         self.crc_func = crcmod.predefined.mkCrcFun('xmodem')
 
+    @log_calls()
     def _calculate_crc(self, data: bytes) -> bytes:
         """Calculate CRC16/XMODEM checksum."""
         crc = self.crc_func(data)
         return crc.to_bytes(2, byteorder="big")
 
+    @log_calls()
     def _create_command(self, command: str) -> bytes:
         """Create a PIMA protocol command with framing and CRC."""
         data = command.encode("ascii")
@@ -66,6 +71,7 @@ class PimaProtocol:
 
         return full_command
 
+    @log_calls()
     def _parse_response(self, response: bytes) -> Optional[str]:
         """Parse a PIMA protocol response."""
         _LOGGER.debug("Response: %s", response.hex())
@@ -102,6 +108,7 @@ class PimaProtocol:
         _LOGGER.debug("Parsed: '%s'", result)
         return result
 
+    @log_calls()
     def _send_udp_knocks(self):
         """Send UDP wake-up packets to PIMA system."""
         try:
@@ -118,6 +125,7 @@ class PimaProtocol:
             _LOGGER.error("Failed to send UDP knocks: %s", err)
             raise
 
+    @log_calls()
     def _connect_and_execute(self, command: str) -> Optional[str]:
         """Connect to PIMA and execute a command."""
         for attempt in range(self.retry_attempts):
@@ -179,6 +187,7 @@ class PimaProtocol:
         _LOGGER.error("All %d attempts failed for '%s'", self.retry_attempts, command)
         return None
 
+    @log_calls()
     async def async_get_status(self) -> Optional[str]:
         """Get alarm status asynchronously."""
         loop = asyncio.get_event_loop()
@@ -196,6 +205,7 @@ class PimaProtocol:
 
         return "unknown"
 
+    @log_calls()
     async def async_arm_away(self) -> bool:
         """Arm all zones (away mode)."""
         loop = asyncio.get_event_loop()
@@ -204,6 +214,7 @@ class PimaProtocol:
         )
         return response is not None and "S=1" in response
 
+    @log_calls()
     async def async_arm_home(self) -> bool:
         """Arm home zones."""
         loop = asyncio.get_event_loop()
@@ -212,6 +223,7 @@ class PimaProtocol:
         )
         return response is not None and "S=2" in response
 
+    @log_calls()
     async def async_arm_night(self) -> bool:
         """Arm night mode."""
         loop = asyncio.get_event_loop()
@@ -220,6 +232,7 @@ class PimaProtocol:
         )
         return response is not None and "S=3" in response
 
+    @log_calls()
     async def async_disarm(self) -> bool:
         """Disarm alarm."""
         loop = asyncio.get_event_loop()

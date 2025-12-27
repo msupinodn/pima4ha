@@ -17,10 +17,12 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
+from .logging_utils import log_calls
 
 _LOGGER = logging.getLogger(__name__)
 
 
+@log_calls()
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
@@ -44,6 +46,7 @@ class PimaAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         | AlarmControlPanelEntityFeature.ARM_NIGHT
     )
 
+    @log_calls()
     def __init__(self, coordinator, config_entry):
         """Initialize the alarm control panel."""
         super().__init__(coordinator)
@@ -73,6 +76,7 @@ class PimaAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
         return state_map.get(pima_state)
 
+    @log_calls()
     async def async_alarm_disarm(self, code=None):
         """Send disarm command."""
         _LOGGER.debug("Disarming alarm")
@@ -85,6 +89,7 @@ class PimaAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         else:
             _LOGGER.error("Failed to disarm alarm")
 
+    @log_calls()
     async def async_alarm_arm_away(self, code=None):
         """Send arm away command."""
         _LOGGER.debug("Arming alarm (away)")
@@ -97,6 +102,7 @@ class PimaAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         else:
             _LOGGER.error("Failed to arm alarm (away)")
 
+    @log_calls()
     async def async_alarm_arm_home(self, code=None):
         """Send arm home command."""
         _LOGGER.debug("Arming alarm (home)")
@@ -109,6 +115,7 @@ class PimaAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         else:
             _LOGGER.error("Failed to arm alarm (home)")
 
+    @log_calls()
     async def async_alarm_arm_night(self, code=None):
         """Send arm night command."""
         _LOGGER.debug("Arming alarm (night)")
