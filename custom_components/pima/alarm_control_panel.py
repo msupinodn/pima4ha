@@ -4,14 +4,14 @@ import logging
 from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelEntity,
     AlarmControlPanelEntityFeature,
+    AlarmControlPanelState,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_DISARMED,
-)
+
+STATE_ALARM_ARMED_AWAY = AlarmControlPanelState.ARMED_AWAY
+STATE_ALARM_ARMED_HOME = AlarmControlPanelState.ARMED_HOME
+STATE_ALARM_ARMED_NIGHT = AlarmControlPanelState.ARMED_NIGHT
+STATE_ALARM_DISARMED = AlarmControlPanelState.DISARMED
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
